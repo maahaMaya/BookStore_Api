@@ -7,6 +7,6 @@ namespace BusinessLayer.Interface
 {
     public interface I_CustomerBl
     {
-
+        public IEnumerable<GetAllCustomer> getAllCustomer();
     }
 }

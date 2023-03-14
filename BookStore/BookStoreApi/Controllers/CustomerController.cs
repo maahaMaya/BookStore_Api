@@ -14,5 +14,27 @@ namespace BookStoreApi.Controllers
         {   
            this.i_CustomerBl= i_CustomerBl;
         }
+
+        [HttpGet]
+        public IActionResult getAllCustomersDetails()
+        {
+            try
+            {
+                var result = i_CustomerBl.getAllCustomer();
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Retrieving  successful", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Retrieving unsuccessful" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

@@ -14,5 +14,18 @@ namespace BusinessLayer.Service
 		{
 			this.i_CustomerRl = i_CustomerRl;
 		}
+
+        public IEnumerable<GetAllCustomer> getAllCustomer()
+        {
+			try
+			{
+				return i_CustomerRl.getAllCustomer();
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
+        }
     }
 }

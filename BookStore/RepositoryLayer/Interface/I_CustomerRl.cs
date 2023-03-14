@@ -7,6 +7,6 @@ namespace RepositoryLayer.Interface
 {
     public interface I_CustomerRl
     {
-
+        public IEnumerable<GetAllCustomer> getAllCustomer();
     }
 }
