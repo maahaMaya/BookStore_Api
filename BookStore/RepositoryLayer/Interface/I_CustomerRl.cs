@@ -10,5 +10,6 @@ namespace RepositoryLayer.Interface
     {
         public IEnumerable<GetAllCustomer> getAllCustomer();
         public RegisterNewCustomer registerNewCustomer(RegisterNewCustomer registerNewCustomer);
+        public string login_Customer(LoginCustomer loginCustomer);
     }
 }

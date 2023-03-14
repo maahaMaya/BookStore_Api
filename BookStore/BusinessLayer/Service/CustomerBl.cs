@@ -41,5 +41,19 @@ namespace BusinessLayer.Service
 				throw;
 			}
         }
+
+
+        public string login_Customer(LoginCustomer loginCustomer)
+        {
+            try
+            {
+                return i_CustomerRl.login_Customer(loginCustomer);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

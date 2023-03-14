@@ -61,5 +61,28 @@ namespace BookStoreApi.Controllers
                 throw;
             }
         }
+
+        [HttpPost]
+        [Route("loginCustomer")]
+        public IActionResult loginCustomer(LoginCustomer loginCustomer)
+        {
+            try
+            {
+                var result = i_CustomerBl.login_Customer(loginCustomer);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "message customer successfully", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "message customer unsuccessful" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
