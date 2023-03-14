@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Interface;
+using CommonLayer.Models.CustomerModels;
 using CommonLayer.Models.UserModels;
 using RepositoryLayer.Interface;
 using System;
@@ -21,6 +22,19 @@ namespace BusinessLayer.Service
 			{
 				return i_CustomerRl.getAllCustomer();
 			}
+			catch (Exception)
+			{
+
+				throw;
+			}
+        }
+
+        public RegisterNewCustomer registerNewCustomer(RegisterNewCustomer registerNewCustomer)
+        {
+			try
+			{
+				return i_CustomerRl.registerNewCustomer(registerNewCustomer);
+            }
 			catch (Exception)
 			{
 

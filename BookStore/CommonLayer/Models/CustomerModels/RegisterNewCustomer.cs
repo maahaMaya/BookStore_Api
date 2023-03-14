@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace CommonLayer.Models.UserModels
+namespace CommonLayer.Models.CustomerModels
 {
-    public class GetAllCustomer
+    public class RegisterNewCustomer
     {
-        public int customer_id { get; set; }
         [Required]
         public string fullname { get; set; }
         [Required]
@@ -16,6 +15,5 @@ namespace CommonLayer.Models.UserModels
         public string passwords { get; set; }
         [Required]
         public int phone_number { get; set; }
-        public DateTime created_at { get; set; }
     }
 }

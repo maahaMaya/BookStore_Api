@@ -9,7 +9,7 @@ CREATE TABLE UserDetails
 	passwords VARCHAR(50) NOT NULL,
 	phone_number INT NOT NULL,
 	created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    updated_at DATETIME
+	updated_at DATETIME
 )
 
 --INSERT INTO UserDetails(fullname, email_id, passwords, phone_number) VALUES ('sourav kumar', 'sourav@gmail.com', 'Sourav@12345sa', 1234567890)

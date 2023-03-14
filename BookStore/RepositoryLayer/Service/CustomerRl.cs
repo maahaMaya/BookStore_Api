@@ -1,4 +1,5 @@
-﻿using CommonLayer.Models.UserModels;
+﻿using CommonLayer.Models.CustomerModels;
+using CommonLayer.Models.UserModels;
 using Microsoft.Extensions.Configuration;
 using RepositoryLayer.Interface;
 using System;
@@ -12,6 +13,9 @@ namespace RepositoryLayer.Service
     public class CustomerRl : I_CustomerRl
     {
         private readonly IConfiguration iconfiguration;
+
+        public static string connectionString = "Data Source=(localdb)\\MSSQLLocalDB ;Initial Catalog=BookStore;Integrated Security=True;";
+        SqlConnection sqlConnection = new SqlConnection(connectionString);
         public CustomerRl(IConfiguration iconfiguration) 
         { 
             this.iconfiguration = iconfiguration;
@@ -22,12 +26,12 @@ namespace RepositoryLayer.Service
             try
             {
                 List<GetAllCustomer> listCustomer = new List<GetAllCustomer>();
-                using (SqlConnection con = new SqlConnection("Data Source=(localdb)\\MSSQLLocalDB ;Initial Catalog=BookStore;Integrated Security=True;"))
+                using (this.sqlConnection)
                 {
-                    SqlCommand cmd = new SqlCommand("spGetALlCustomer", con);
+                    SqlCommand cmd = new SqlCommand("spGetALlCustomer", sqlConnection);
                     cmd.CommandType = CommandType.StoredProcedure;
 
-                    con.Open();
+                    sqlConnection.Open();
                     SqlDataReader rdr = cmd.ExecuteReader();
                     while (rdr.Read())
                     {
@@ -38,17 +42,46 @@ namespace RepositoryLayer.Service
                         getAllCustomer.email_id = rdr["email_id"].ToString();
                         getAllCustomer.passwords = rdr["passwords"].ToString();
                         getAllCustomer.phone_number = Convert.ToInt32(rdr["phone_number"]);
+                        getAllCustomer.created_at = Convert.ToDateTime(rdr["created_at"]);
 
                         listCustomer.Add(getAllCustomer);
                     }
-                    con.Close();
+                    sqlConnection.Close();
                 }
                 return listCustomer;
-
             }
             catch (Exception)
             {
+                throw;
+            }
+        }
 
+        public RegisterNewCustomer registerNewCustomer(RegisterNewCustomer registerNewCustomer)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("spRegisterNewCustomer", this.sqlConnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@fullname", registerNewCustomer.fullname);
+                cmd.Parameters.AddWithValue("@email_id", registerNewCustomer.email_id);
+                cmd.Parameters.AddWithValue("@passwords", registerNewCustomer.passwords);
+                cmd.Parameters.AddWithValue("@phone_number", registerNewCustomer.phone_number);
+
+                this.sqlConnection.Open();
+                int databaseUpdateValue = cmd.ExecuteNonQuery();
+                this.sqlConnection.Close();
+                if(databaseUpdateValue >= 1)
+                {
+                    return registerNewCustomer;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
                 throw;
             }
         }

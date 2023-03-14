@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Interface;
+using CommonLayer.Models.CustomerModels;
 using CommonLayer.Models.UserModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -16,6 +17,7 @@ namespace BookStoreApi.Controllers
         }
 
         [HttpGet]
+        [Route("RetrieveCustomer")]
         public IActionResult getAllCustomersDetails()
         {
             try
@@ -23,11 +25,34 @@ namespace BookStoreApi.Controllers
                 var result = i_CustomerBl.getAllCustomer();
                 if (result != null)
                 {
-                    return Ok(new { success = true, message = "Retrieving  successful", data = result });
+                    return Ok(new { success = true, message = "Retrieving customer successfully", data = result });
                 }
                 else
                 {
-                    return BadRequest(new { success = false, message = "Retrieving unsuccessful" });
+                    return BadRequest(new { success = false, message = "Retrieving customer unsuccessful" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpPost]
+        [Route("RegisterCustomer")]
+        public IActionResult registerNewCustomer(RegisterNewCustomer registerNewCustomer)
+        {
+            try
+            {
+                var result = i_CustomerBl.registerNewCustomer(registerNewCustomer);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "adding customer successfully", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "adding customer unsuccessful"});
                 }
             }
             catch (System.Exception)
