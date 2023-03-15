@@ -12,6 +12,8 @@ CREATE TABLE CustomerDetails
 	updated_at DATETIME
 )
 
+ALTER TABLE CustomerDetails ALTER COLUMN phone_number BIGINT;
+
 --INSERT INTO UserDetails(fullname, email_id, passwords, phone_number) VALUES ('sourav kumar', 'sourav@gmail.com', 'Sourav@12345sa', 1234567890)
 --UPDATE UserDetails SET passwords = 'Sourav@12345', updated_at = GETDATE() WHERE email_id = 'sourav@gmail.com'
 --SELECT * FROM UserDetails;

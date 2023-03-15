@@ -1,4 +1,5 @@
 ﻿using CommonLayer.Models.CustomerModels;
+using CommonLayer.Models.MsmqModel;
 using CommonLayer.Models.UserModels;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
@@ -116,7 +117,10 @@ namespace RepositoryLayer.Service
                     if(afterLoginValidate1.email_id != null) 
                     {
                         sqlConnection.Close();
-                        return GenerateSecurityToken(afterLoginValidate1.email_id, afterLoginValidate1.customer_id);
+                        ForgetPasswordMessage forgetPasswordMessage = new ForgetPasswordMessage();
+                        string jwtToken = GenerateSecurityToken(afterLoginValidate1.email_id, afterLoginValidate1.customer_id);
+                        forgetPasswordMessage.sendData2Queue(jwtToken);
+                        return jwtToken;
                     }
                     sqlConnection.Close();
                     return null;

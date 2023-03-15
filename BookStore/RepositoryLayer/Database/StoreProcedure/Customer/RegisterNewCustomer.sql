@@ -9,7 +9,7 @@ CREATE PROCEDURE spRegisterNewCustomer
     @phone_number INT
 ) 
 AS BEGIN  
-	INSERT INTO UserDetails (fullname, email_id, passwords, phone_number) 
+	INSERT INTO CustomerDetails (fullname, email_id, passwords, phone_number) 
 	VALUES (@fullname ,@email_id ,@passwords, @phone_number) 
 END 
 
