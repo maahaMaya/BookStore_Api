@@ -1,7 +1,7 @@
 USE BookStore;
 
---CREATE TABLE
-CREATE TABLE UserDetails
+--CREATE TABLE CustomerDetails
+CREATE TABLE CustomerDetails
 (
 	customer_id INT PRIMARY KEY IDENTITY NOT NULL, 
 	fullname VARCHAR(50) NOT NULL, 
