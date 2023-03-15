@@ -117,10 +117,7 @@ namespace RepositoryLayer.Service
                     if(afterLoginValidate1.email_id != null) 
                     {
                         sqlConnection.Close();
-                        ForgetPasswordMessage forgetPasswordMessage = new ForgetPasswordMessage();
-                        string jwtToken = GenerateSecurityToken(afterLoginValidate1.email_id, afterLoginValidate1.customer_id);
-                        forgetPasswordMessage.sendData2Queue(jwtToken);
-                        return jwtToken;
+                        return GenerateSecurityTokenCustomer(afterLoginValidate1.email_id, afterLoginValidate1.customer_id);
                     }
                     sqlConnection.Close();
                     return null;
@@ -132,9 +129,105 @@ namespace RepositoryLayer.Service
             {
                 throw;
             }
+            finally
+            {
+                if (sqlConnection.State == ConnectionState.Open)
+                {
+                    sqlConnection.Close();
+                }
+            }
         }
 
-        public string GenerateSecurityToken(string email, long UserId)
+        public string forget_login_password(ForgetPassword forgetPassword)
+        {
+            try
+            {
+                SqlCommand cmd = new SqlCommand("spFindEmailDetails", this.sqlConnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@email_id", forgetPassword.email_id);
+
+                sqlConnection.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                while (rdr.Read())
+                {
+                    AfterLoginValidate afterLoginValidate = new AfterLoginValidate();
+
+                    AfterLoginValidate afterLoginValidate1 = new AfterLoginValidate();
+                    afterLoginValidate1.customer_id = Convert.ToInt32(rdr["customer_id"]);
+                    afterLoginValidate1.email_id = rdr["email_id"].ToString();
+                    if (afterLoginValidate1.email_id != null)
+                    {
+                        sqlConnection.Close();
+                        ForgetPasswordMessage forgetPasswordMessage = new ForgetPasswordMessage();
+                        string jwtToken = GenerateSecurityTokenCustomer(afterLoginValidate1.email_id, afterLoginValidate1.customer_id);
+                        forgetPasswordMessage.sendData2Queue(jwtToken);
+                        return jwtToken;
+                    }
+                    sqlConnection.Close();
+                    return null;
+                }
+                sqlConnection.Close();
+                return null;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                if (sqlConnection.State == ConnectionState.Open)
+                {
+                    sqlConnection.Close();
+                }
+            }
+        }
+
+        public bool reset_login_password(ResetPassword resetPassword, string email_id)
+        {
+            try
+            {
+                if(resetPassword.passwords == resetPassword.confirm_passwords)
+                {
+                    SqlCommand cmd = new SqlCommand("spResetPassword", this.sqlConnection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@email_id", email_id);
+                    cmd.Parameters.AddWithValue("@passwords", resetPassword.passwords); 
+
+                    sqlConnection.Open();
+                    int databaseUpdateValue = cmd.ExecuteNonQuery();
+                    this.sqlConnection.Close();
+                    if (databaseUpdateValue >= 1)
+                    {
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                if (sqlConnection.State == ConnectionState.Open)
+                {
+                    sqlConnection.Close();
+                }
+            }
+        }
+
+        public string GenerateSecurityTokenCustomer(string email, long UserId)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_secret);

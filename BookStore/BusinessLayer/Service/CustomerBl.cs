@@ -55,5 +55,31 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+        public bool reset_login_password(ResetPassword resetPassword, string email_id)
+        {
+			try
+			{
+				return i_CustomerRl.reset_login_password(resetPassword, email_id);
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
+        }
+
+        public string forget_login_password(ForgetPassword forgetPassword)
+		{
+			try
+			{
+				return i_CustomerRl.forget_login_password(forgetPassword);
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
+		}
+
     }
 }

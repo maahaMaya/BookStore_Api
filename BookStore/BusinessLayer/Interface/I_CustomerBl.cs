@@ -11,5 +11,9 @@ namespace BusinessLayer.Interface
         public IEnumerable<GetAllCustomer> getAllCustomer();
         public RegisterNewCustomer registerNewCustomer(RegisterNewCustomer registerNewCustomer);
         public string login_Customer(LoginCustomer loginCustomer);
+
+        public bool reset_login_password(ResetPassword resetPassword, string email_id);
+
+        public string forget_login_password(ForgetPassword forgetPassword);
     }
 }
