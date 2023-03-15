@@ -16,24 +16,22 @@ namespace RepositoryLayer.Service
 {
     public class CustomerRl : I_CustomerRl
     {
-        private readonly IConfiguration iconfiguration;
-
-        public static string connectionString = "Data Source=(localdb)\\MSSQLLocalDB ;Initial Catalog=BookStore;Integrated Security=True;";
-        SqlConnection sqlConnection = new SqlConnection(connectionString);
-
-        private readonly string _secret;
-        private readonly string _expDate;
+        public  readonly string _connectionString;
+        private  readonly string _secret;
+        private  readonly string _expDate;
         public CustomerRl(IConfiguration iconfiguration) 
-        { 
-            this.iconfiguration = iconfiguration;
+        {
+            _connectionString = iconfiguration.GetSection("ConnectionString").GetSection("BookStore").Value;
             _secret = iconfiguration.GetSection("JwtConfig").GetSection("secret").Value;
             _expDate = iconfiguration.GetSection("JwtConfig").GetSection("expirationInMinutes").Value;
         }
+        SqlConnection sqlConnection;
 
         public IEnumerable<GetAllCustomer> getAllCustomer()
         {
             try
             {
+                sqlConnection = new SqlConnection(_connectionString);
                 List<GetAllCustomer> listCustomer = new List<GetAllCustomer>();
                 using (this.sqlConnection)
                 {
@@ -63,10 +61,18 @@ namespace RepositoryLayer.Service
             {
                 throw;
             }
+            finally
+            {
+                if (sqlConnection.State == ConnectionState.Open)
+                {
+                    sqlConnection.Close();
+                }
+            }
         }
 
         public RegisterNewCustomer registerNewCustomer(RegisterNewCustomer registerNewCustomer)
         {
+            sqlConnection = new SqlConnection(_connectionString);
             try
             {
                 SqlCommand cmd = new SqlCommand("spRegisterNewCustomer", this.sqlConnection);
@@ -93,10 +99,18 @@ namespace RepositoryLayer.Service
             {
                 throw;
             }
+            finally
+            {
+                if (sqlConnection.State == ConnectionState.Open)
+                {
+                    sqlConnection.Close();
+                }
+            }
         }
 
         public string login_Customer(LoginCustomer loginCustomer)
         {
+            sqlConnection = new SqlConnection(_connectionString);
             try
             {
                 SqlCommand cmd = new SqlCommand("spLoginCustomer", this.sqlConnection);
@@ -140,6 +154,7 @@ namespace RepositoryLayer.Service
 
         public string forget_login_password(ForgetPassword forgetPassword)
         {
+            sqlConnection = new SqlConnection(_connectionString);
             try
             {
                 SqlCommand cmd = new SqlCommand("spFindEmailDetails", this.sqlConnection);

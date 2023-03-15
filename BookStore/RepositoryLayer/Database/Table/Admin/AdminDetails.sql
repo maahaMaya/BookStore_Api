@@ -10,3 +10,7 @@ CREATE TABLE AdminDetails
 	phone_number INT NOT NULL,
 	created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 )
+
+INSERT INTO AdminDetails (fullname, email_id, passwords, phone_number) VALUES ('Admin One', 'adminOne@gmail.com', 'adminOne@12345', 1234567890), ('Admin Two', 'adminTwo@gmail.com', 'adminTwo@12345', 0987654321);
+
+SELECT * FROM AdminDetails;
