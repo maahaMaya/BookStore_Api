@@ -128,11 +128,34 @@ namespace BookStoreApi.Controllers
                 var result = i_BookBl.updateBookByAdmin(updateBook);
                 if (result != null)
                 {
-                    return Ok(new { success = true, message = "updateBookImage_Successfully", data = result });
+                    return Ok(new { success = true, message = "updateBookDetails_Successfully", data = result });
                 }
                 else
                 {
-                    return BadRequest(new { success = false, message = "updateBookImage_Unsuccessful", data = result });
+                    return BadRequest(new { success = false, message = "updateBookDetails_Unsuccessful", data = result });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpDelete]
+        [Route("deleteBookByAdmins")]
+        public IActionResult deleteBookByAdmins(GetBookById getBookById)
+        {
+            try
+            {
+                var result = i_BookBl.delteBookByAdmin(getBookById);
+                if (result == true)
+                {
+                    return Ok(new { success = true, message = "deleteBook_Successfully", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "deleteBook_Unsuccessful", data = result });
                 }
             }
             catch (System.Exception)

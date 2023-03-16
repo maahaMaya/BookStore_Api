@@ -13,5 +13,7 @@ namespace RepositoryLayer.Interface
         public IEnumerable<GetBook> getAllBook();
         public bool BookImageUpdate(UpdateBookImage updateBookImage);
         public UpdateBook updateBookByAdmin(UpdateBook updateBook);
+
+        public bool delteBookByAdmin(GetBookById getBookById);
     }
 }

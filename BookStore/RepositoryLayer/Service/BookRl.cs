@@ -245,6 +245,43 @@ namespace RepositoryLayer.Service
         }
 
 
+        public bool delteBookByAdmin(GetBookById getBookById)
+        {
+            sqlConnection = new SqlConnection(_connectionString);
+            try
+            {
+                SqlCommand cmd = new SqlCommand("spDeletBook", this.sqlConnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@book_id", getBookById.book_id);
+
+                this.sqlConnection.Open();
+                int databaseUpdateValue = cmd.ExecuteNonQuery();
+                this.sqlConnection.Close();
+                if (databaseUpdateValue >= 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                if (sqlConnection.State == ConnectionState.Open)
+                {
+                    sqlConnection.Close();
+                }
+            }
+        }
+
+
         /// <summary>
         /// update the image in database
         /// </summary>

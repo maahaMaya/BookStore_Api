@@ -79,5 +79,18 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+
+        public bool delteBookByAdmin(GetBookById getBookById)
+        {
+            try
+            {
+                return i_BookRl.delteBookByAdmin(getBookById);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
