@@ -1,6 +1,7 @@
 ﻿using CommonLayer.Models.AdminModel;
 using CommonLayer.Models.BookModels;
 using CommonLayer.Models.CustomerModels;
+using CommonLayer.Models.UserModels;
 using Microsoft.Extensions.Configuration;
 using RepositoryLayer.Interface;
 using System;
@@ -58,6 +59,64 @@ namespace RepositoryLayer.Service
             catch (Exception)
             {
 
+                throw;
+            }
+            finally
+            {
+                if (sqlConnection.State == ConnectionState.Open)
+                {
+                    sqlConnection.Close();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Find book on the basis of bookId
+        /// </summary>
+        /// <returns>matched book details</returns>
+        public IEnumerable<GetBook> getBookById(GetBookById getBookById)
+        {
+            try
+            {
+                sqlConnection = new SqlConnection(_connectionString);
+                List<GetBook> getBookList = new List<GetBook>();
+                using (this.sqlConnection)
+                {
+                    SqlCommand cmd = new SqlCommand("spGetBookByBookId", sqlConnection);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@book_id", getBookById.book_id);
+
+                    sqlConnection.Open();
+                    SqlDataReader rdr = cmd.ExecuteReader();
+                    if(!rdr.HasRows) 
+                    {
+                        return null;
+                    }
+                    while (rdr.Read())
+                    {
+                        GetBook getBook = new GetBook();
+
+                        getBook.book_id = Convert.ToInt32(rdr["book_id"]);
+                        getBook.book_title = rdr["book_title"].ToString();
+                        getBook.book_author = rdr["book_author"].ToString();
+                        getBook.book_rating = Convert.ToSingle(rdr["book_rating"]);
+                        getBook.book_total_rating = Convert.ToInt32(rdr["book_total_rating"]);
+                        getBook.book_actual_price = Convert.ToInt32(rdr["book_actual_price"]);
+                        getBook.book_discount_price = Convert.ToInt32(rdr["book_discount_price"]);
+                        getBook.book_description = rdr["book_description"].ToString();
+                        getBook.book_stock = Convert.ToInt32(rdr["book_stock"]);
+                        getBook.book_image = rdr["book_image"].ToString();
+
+                        getBookList.Add(getBook);
+                        return getBookList;
+                    }
+                    sqlConnection.Close();
+                }
+                return getBookList;
+            }
+            catch (Exception)
+            {
                 throw;
             }
             finally

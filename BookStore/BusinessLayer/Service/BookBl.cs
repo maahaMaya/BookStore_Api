@@ -27,5 +27,18 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+
+        public IEnumerable<GetBook> getBookById(GetBookById getBookById)
+        {
+            try
+            {
+                return i_BookRl.getBookById(getBookById);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

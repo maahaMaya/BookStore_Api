@@ -33,7 +33,31 @@ namespace BookStoreApi.Controllers
                 }
                 else
                 {
-                    return BadRequest(new { success = false, message = "addingBook_Unsuccessful", data = premissionToAddBook });
+                    return BadRequest(new { success = false, message = "addingBook_Unsuccessful"});
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+
+        
+        [HttpGet]
+        [Route("getBookById")]
+        public IActionResult getBookById([FromQuery] GetBookById getBookById)
+        {
+            try
+            {
+                var result = i_BookBl.getBookById(getBookById);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "reteriveBook_Successfully", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "reteriveBook_Unsuccessful" });
                 }
             }
             catch (System.Exception)
