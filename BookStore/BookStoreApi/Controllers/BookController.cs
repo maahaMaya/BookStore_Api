@@ -8,7 +8,7 @@ using System.Security.Claims;
 
 namespace BookStoreApi.Controllers
 {
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class BookController : ControllerBase
@@ -58,6 +58,29 @@ namespace BookStoreApi.Controllers
                 else
                 {
                     return BadRequest(new { success = false, message = "reteriveBook_Unsuccessful" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpGet]
+        [Route("getAllBook")]
+        public IActionResult getAllBook()
+        {
+            try
+            {
+                var result = i_BookBl.getAllBook();
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "reteriveAllBook_Successfully", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "reteriveAllBook_Unsuccessful" });
                 }
             }
             catch (System.Exception)

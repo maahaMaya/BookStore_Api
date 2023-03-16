@@ -9,5 +9,6 @@ namespace RepositoryLayer.Interface
     {
         public AddNewBook addNewBookByAdmin(AddNewBook addNewBook, string premissionToAddBook);
         public IEnumerable<GetBook> getBookById(GetBookById getBookById);
+        public IEnumerable<GetBook> getAllBook();
     }
 }

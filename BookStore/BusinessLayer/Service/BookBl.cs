@@ -40,5 +40,18 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+
+        public IEnumerable<GetBook> getAllBook()
+        {
+            try
+            {
+                return i_BookRl.getAllBook();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
