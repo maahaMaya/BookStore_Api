@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Interface;
 using CommonLayer.Models.BookModels;
+using Microsoft.AspNetCore.Http;
 using RepositoryLayer.Interface;
 using System;
 using System.Collections.Generic;
@@ -46,6 +47,18 @@ namespace BusinessLayer.Service
             try
             {
                 return i_BookRl.getAllBook();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public bool BookImageUpdate(UpdateBookImage updateBookImage)
+        {
+            try
+            {
+                return i_BookRl.BookImageUpdate(updateBookImage);
             }
             catch (Exception)
             {

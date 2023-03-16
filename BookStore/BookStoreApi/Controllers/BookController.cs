@@ -62,7 +62,6 @@ namespace BookStoreApi.Controllers
             }
             catch (System.Exception)
             {
-
                 throw;
             }
         }
@@ -81,6 +80,28 @@ namespace BookStoreApi.Controllers
                 else
                 {
                     return BadRequest(new { success = false, message = "reteriveAllBook_Unsuccessful" });
+                }
+            }
+            catch (System.Exception)
+            {
+                throw;
+            }
+        }
+
+        [HttpPut]
+        [Route("upadeBookImage")]
+        public IActionResult upadeBookImage([FromForm] UpdateBookImage updateBookImage) 
+        { 
+            try
+            {
+                var result = i_BookBl.BookImageUpdate(updateBookImage);
+                if (result == true)
+                {
+                    return Ok(new { success = true, message = "updateBookImage_Successfully", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "updateBookImage_Unsuccessful", data = result });
                 }
             }
             catch (System.Exception)

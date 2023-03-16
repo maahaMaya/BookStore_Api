@@ -1,14 +1,18 @@
-﻿using CommonLayer.Models.AdminModel;
+﻿using CloudinaryDotNet;
+using CommonLayer.Models.AdminModel;
 using CommonLayer.Models.BookModels;
 using CommonLayer.Models.CustomerModels;
 using CommonLayer.Models.UserModels;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using RepositoryLayer.Interface;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace RepositoryLayer.Service
 {
@@ -17,9 +21,19 @@ namespace RepositoryLayer.Service
         private readonly string _connectionString;
         SqlConnection sqlConnection;
         private static readonly string roleCheckForAddBook = "Admin";
+        IConfiguration iconfiguration; 
+
+        private readonly string CloudName;
+        private readonly string ApiKey;
+        private readonly string ApiSecret;
         public BookRl(IConfiguration iconfiguration)
         {
+            this.iconfiguration = iconfiguration;
             _connectionString = iconfiguration.GetSection("ConnectionString").GetSection("BookStore").Value;
+
+            CloudName = iconfiguration.GetSection("CloudinarySettings").GetSection("CloudName").Value;
+            ApiKey = iconfiguration.GetSection("CloudinarySettings").GetSection("APIKey").Value;
+            ApiSecret = iconfiguration.GetSection("CloudinarySettings").GetSection("APISecret").Value;
         }
 
         public AddNewBook addNewBookByAdmin(AddNewBook addNewBook, string premissionToAddBook)
@@ -178,6 +192,72 @@ namespace RepositoryLayer.Service
                 {
                     sqlConnection.Close();
                 }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="imageFile"></param>
+        /// <param name="getBookById"></param>
+        /// <returns></returns>
+        public bool BookImageUpdate(UpdateBookImage updateBookImage)
+        {
+            try
+            {
+                string uploadImagePath = ImageUploadOnCloudinary(updateBookImage.ImgFile);
+
+                sqlConnection = new SqlConnection(_connectionString);
+                SqlCommand cmd = new SqlCommand("spUpdateBookImage", sqlConnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@book_id", updateBookImage.book_id);
+                cmd.Parameters.AddWithValue("@book_image", uploadImagePath);
+
+                sqlConnection.Open();
+                int databaseUpdateValue = cmd.ExecuteNonQuery();
+                this.sqlConnection.Close();
+                if (databaseUpdateValue >= 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+        }
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileUpload"></param>
+        /// <returns></returns>
+        public string ImageUploadOnCloudinary(IFormFile imageFile)
+        {
+            try
+            {
+                Account account = new Account(CloudName, ApiKey, ApiSecret);
+
+                Cloudinary cloudinary = new Cloudinary(account);
+                var uploadParams = new CloudinaryDotNet.Actions.ImageUploadParams()
+                {
+                    File = new FileDescription(imageFile.FileName, imageFile.OpenReadStream()),
+
+                };
+
+                var uploadResult = cloudinary.Upload(uploadParams);
+                string imagePath = uploadResult.Url.ToString();
+                return imagePath;
+            }
+            catch (Exception)
+            {
+                throw;
             }
         }
     }
