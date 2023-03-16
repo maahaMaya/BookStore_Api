@@ -36,6 +36,12 @@ namespace RepositoryLayer.Service
             ApiSecret = iconfiguration.GetSection("CloudinarySettings").GetSection("APISecret").Value;
         }
 
+        /// <summary>
+        /// add a new book only by admin role
+        /// </summary>
+        /// <param name="addNewBook"></param>
+        /// <param name="premissionToAddBook"></param>
+        /// <returns></returns>
         public AddNewBook addNewBookByAdmin(AddNewBook addNewBook, string premissionToAddBook)
         {
             sqlConnection = new SqlConnection(_connectionString);
@@ -89,12 +95,11 @@ namespace RepositoryLayer.Service
         /// </summary>
         ///  <param name="getBookById"></param>
         /// <returns>matched book details</returns>
-        public IEnumerable<GetBook> getBookById(GetBookById getBookById)
+        public GetBook getBookById(GetBookById getBookById)
         {
             try
             {
                 sqlConnection = new SqlConnection(_connectionString);
-                List<GetBook> getBookList = new List<GetBook>();
                 using (this.sqlConnection)
                 {
                     SqlCommand cmd = new SqlCommand("spGetBookByBookId", sqlConnection);
@@ -123,12 +128,11 @@ namespace RepositoryLayer.Service
                         getBook.book_stock = Convert.ToInt32(rdr["book_stock"]);
                         getBook.book_image = rdr["book_image"].ToString();
 
-                        getBookList.Add(getBook);
-                        return getBookList;
+                        return getBook;
                     }
                     sqlConnection.Close();
                 }
-                return getBookList;
+                return null;
             }
             catch (Exception)
             {
@@ -193,10 +197,56 @@ namespace RepositoryLayer.Service
                     sqlConnection.Close();
                 }
             }
+        } 
+
+        public UpdateBook updateBookByAdmin(UpdateBook updateBook)
+        {
+            sqlConnection = new SqlConnection(_connectionString);
+            try
+            {
+                SqlCommand cmd = new SqlCommand("spUpdateBook", this.sqlConnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@book_id", updateBook.book_id);
+                cmd.Parameters.AddWithValue("@book_title", updateBook.book_title);
+                cmd.Parameters.AddWithValue("@book_author", updateBook.book_author);
+                cmd.Parameters.AddWithValue("@book_rating", updateBook.book_rating);
+                cmd.Parameters.AddWithValue("@book_total_rating", updateBook.book_total_rating);
+                cmd.Parameters.AddWithValue("@book_actual_price", updateBook.book_actual_price);
+                cmd.Parameters.AddWithValue("@book_discount_price", updateBook.book_discount_price);
+                cmd.Parameters.AddWithValue("@book_description", updateBook.book_description);
+                cmd.Parameters.AddWithValue("@book_stock", updateBook.book_stock);
+                cmd.Parameters.AddWithValue("@book_image", updateBook.book_image);
+
+                this.sqlConnection.Open();
+                int databaseUpdateValue = cmd.ExecuteNonQuery();
+                this.sqlConnection.Close();
+                if (databaseUpdateValue >= 1)
+                {
+                    return updateBook;
+                }
+                else
+                {
+                    return null;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                if (sqlConnection.State == ConnectionState.Open)
+                {
+                    sqlConnection.Close();
+                }
+            }
         }
 
+
         /// <summary>
-        /// 
+        /// update the image in database
         /// </summary>
         /// <param name="imageFile"></param>
         /// <param name="getBookById"></param>
@@ -234,7 +284,7 @@ namespace RepositoryLayer.Service
 
 
         /// <summary>
-        /// 
+        /// take filePath of image and give the url of image
         /// </summary>
         /// <param name="fileUpload"></param>
         /// <returns></returns>

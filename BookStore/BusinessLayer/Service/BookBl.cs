@@ -29,7 +29,7 @@ namespace BusinessLayer.Service
             }
         }
 
-        public IEnumerable<GetBook> getBookById(GetBookById getBookById)
+        public GetBook getBookById(GetBookById getBookById)
         {
             try
             {
@@ -59,6 +59,19 @@ namespace BusinessLayer.Service
             try
             {
                 return i_BookRl.BookImageUpdate(updateBookImage);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public UpdateBook updateBookByAdmin(UpdateBook updateBook)
+        {
+            try
+            {
+                return i_BookRl.updateBookByAdmin(updateBook);
             }
             catch (Exception)
             {

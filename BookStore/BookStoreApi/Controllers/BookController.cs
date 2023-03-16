@@ -43,7 +43,7 @@ namespace BookStoreApi.Controllers
             }
         }
 
-        
+        //[Authorize]
         [HttpGet]
         [Route("getBookById")]
         public IActionResult getBookById([FromQuery] GetBookById getBookById)
@@ -66,6 +66,7 @@ namespace BookStoreApi.Controllers
             }
         }
 
+        //[Authorize(Roles = Role.Admin)]
         [HttpGet]
         [Route("getAllBook")]
         public IActionResult getAllBook()
@@ -88,6 +89,7 @@ namespace BookStoreApi.Controllers
             }
         }
 
+        // [Authorize(Roles = Role.Admin)]
         [HttpPut]
         [Route("upadeBookImage")]
         public IActionResult upadeBookImage([FromForm] UpdateBookImage updateBookImage) 
@@ -96,6 +98,35 @@ namespace BookStoreApi.Controllers
             {
                 var result = i_BookBl.BookImageUpdate(updateBookImage);
                 if (result == true)
+                {
+                    return Ok(new { success = true, message = "updateBookImage_Successfully", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "updateBookImage_Unsuccessful", data = result });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpPut]
+        [Route("upadeBookByAdmins")]
+        public IActionResult upadeBookByAdmins(UpdateBook updateBook)
+        {
+            try
+            {
+                //var resultBook = i_BookBl.getBookById(getBookById);
+                //if (addNewBook.book_description == string.Empty)
+                //{
+                //    addNewBook.book_description = resultBook.book_description;
+                //}
+
+                var result = i_BookBl.updateBookByAdmin(updateBook);
+                if (result != null)
                 {
                     return Ok(new { success = true, message = "updateBookImage_Successfully", data = result });
                 }

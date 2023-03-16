@@ -4,8 +4,9 @@ using System.Text;
 
 namespace CommonLayer.Models.BookModels
 {
-    public class AddNewBook
+    public class UpdateBook
     {
+        public int book_id { get; set; }
         public string book_title { get; set; }
         public string book_author { get; set; }
         public float book_rating { get; set; }
@@ -15,10 +16,5 @@ namespace CommonLayer.Models.BookModels
         public string book_description { get; set; }
         public int book_stock { get; set; }
         public string book_image { get; set; }
-
-        //public static implicit operator AddNewBook(GetBook v)  // GetBook = AddNewBook 
-        //{
-        //    throw new NotImplementedException();
-        //}
     }
 }
