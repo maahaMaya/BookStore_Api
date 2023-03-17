@@ -20,15 +20,13 @@ namespace RepositoryLayer.Service
     {
         private readonly string _connectionString;
         SqlConnection sqlConnection;
-        private static readonly string roleCheckForAddBook = "Admin";
-        IConfiguration iconfiguration; 
+        private static readonly string roleCheckForAddBook = "Admin"; 
 
         private readonly string CloudName;
         private readonly string ApiKey;
         private readonly string ApiSecret;
         public BookRl(IConfiguration iconfiguration)
         {
-            this.iconfiguration = iconfiguration;
             _connectionString = iconfiguration.GetSection("ConnectionString").GetSection("BookStore").Value;
 
             CloudName = iconfiguration.GetSection("CloudinarySettings").GetSection("CloudName").Value;
@@ -148,7 +146,7 @@ namespace RepositoryLayer.Service
         }
 
         /// <summary>
-        /// get all books in the database
+        /// 
         /// </summary>
         /// <returns></returns>
         public IEnumerable<GetBook> getAllBook()
@@ -199,6 +197,11 @@ namespace RepositoryLayer.Service
             }
         } 
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="updateBook"></param>
+        /// <returns></returns>
         public UpdateBook updateBookByAdmin(UpdateBook updateBook)
         {
             sqlConnection = new SqlConnection(_connectionString);
@@ -244,7 +247,11 @@ namespace RepositoryLayer.Service
             }
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="getBookById"></param>
+        /// <returns></returns>
         public bool delteBookByAdmin(GetBookById getBookById)
         {
             sqlConnection = new SqlConnection(_connectionString);
