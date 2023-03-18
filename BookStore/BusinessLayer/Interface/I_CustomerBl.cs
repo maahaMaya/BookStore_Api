@@ -1,4 +1,5 @@
-﻿using CommonLayer.Models.CustomerModels;
+﻿using CommonLayer.Models.CartModels;
+using CommonLayer.Models.CustomerModels;
 using CommonLayer.Models.UserModels;
 using System;
 using System.Collections.Generic;
@@ -9,6 +10,7 @@ namespace BusinessLayer.Interface
     public interface I_CustomerBl
     {
         public IEnumerable<GetAllCustomer> getAllCustomer();
+        public IEnumerable<GetAllCustomer> getCustomerById(GetCustomerId getCustomerId);
         public RegisterNewCustomer registerNewCustomer(RegisterNewCustomer registerNewCustomer);
         public string login_Customer(LoginCustomer loginCustomer);
 

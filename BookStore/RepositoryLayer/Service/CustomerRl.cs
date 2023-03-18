@@ -1,4 +1,5 @@
-﻿using CommonLayer.Models.CustomerModels;
+﻿using CommonLayer.Models.CartModels;
+using CommonLayer.Models.CustomerModels;
 using CommonLayer.Models.MsmqModel;
 using CommonLayer.Models.UserModels;
 using Microsoft.Extensions.Configuration;
@@ -67,6 +68,43 @@ namespace RepositoryLayer.Service
                 {
                     sqlConnection.Close();
                 }
+            }
+        }
+
+
+        public IEnumerable<GetAllCustomer> getCustomerById(GetCustomerId getCustomerId)
+        {
+            try
+            {
+                sqlConnection = new SqlConnection(_connectionString);
+
+                SqlCommand cmd = new SqlCommand("spGetCustomerById", sqlConnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                sqlConnection.Open();
+                cmd.Parameters.AddWithValue("@customer_id", getCustomerId.customer_id);
+                SqlDataReader rdr = cmd.ExecuteReader();
+                
+                List< GetAllCustomer> listCustomer = new List< GetAllCustomer>();
+                while(rdr.Read())
+                {
+                    GetAllCustomer customer = new GetAllCustomer();
+                    customer.customer_id = Convert.ToInt32(rdr["customer_id"]);
+                    customer.fullname = rdr["fullname"].ToString();
+                    customer.email_id = rdr["email_id"].ToString();
+                    customer.passwords = rdr["passwords"].ToString();
+                    customer.phone_number = Convert.ToInt32(rdr["phone_number"]);
+                    customer.created_at = Convert.ToDateTime(rdr["created_at"]);
+
+                    listCustomer.Add(customer);
+                }
+                sqlConnection.Close();
+                return listCustomer;
+            }
+            catch (Exception)
+            {
+
+                throw;
             }
         }
 

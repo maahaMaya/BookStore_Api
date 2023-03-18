@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Interface;
+using CommonLayer.Models.CartModels;
 using CommonLayer.Models.CustomerModels;
 using CommonLayer.Models.UserModels;
 using Microsoft.AspNetCore.Authorization;
@@ -26,6 +27,29 @@ namespace BookStoreApi.Controllers
             try
             {
                 var result = i_CustomerBl.getAllCustomer();
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "Retrieving customer successfully", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "Retrieving customer unsuccessful" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpPost]
+        [Route("getAllCustomersDetailById")]
+        public IActionResult getAllCustomersDetailById(GetCustomerId getCustomerId)
+        {
+            try
+            {
+                var result = i_CustomerBl.getCustomerById(getCustomerId);
                 if (result != null)
                 {
                     return Ok(new { success = true, message = "Retrieving customer successfully", data = result });

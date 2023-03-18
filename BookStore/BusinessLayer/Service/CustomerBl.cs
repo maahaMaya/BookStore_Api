@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Interface;
+using CommonLayer.Models.CartModels;
 using CommonLayer.Models.CustomerModels;
 using CommonLayer.Models.UserModels;
 using RepositoryLayer.Interface;
@@ -28,6 +29,19 @@ namespace BusinessLayer.Service
 				throw;
 			}
         }
+
+        public IEnumerable<GetAllCustomer> getCustomerById(GetCustomerId getCustomerId)
+		{
+			try
+			{
+				return i_CustomerRl.getCustomerById(getCustomerId);
+			}
+			catch (Exception)
+			{
+
+				throw;
+			}
+		}
 
         public RegisterNewCustomer registerNewCustomer(RegisterNewCustomer registerNewCustomer)
         {
