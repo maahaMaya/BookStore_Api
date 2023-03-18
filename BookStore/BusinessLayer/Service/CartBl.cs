@@ -41,11 +41,24 @@ namespace BusinessLayer.Service
             }
         }
 
-        public bool updateCustomerCart(GetCartId getCartId)
+        public bool updateCustomerCart(UpdateCart getCartId)
         {
             try
             {
                 return i_CartRl.updateCustomerCart(getCartId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public bool delteCustomerCart(GetCartId getCartId)
+        {
+            try
+            {
+                return i_CartRl.delteCustomerCart(getCartId);
             }
             catch (Exception)
             {

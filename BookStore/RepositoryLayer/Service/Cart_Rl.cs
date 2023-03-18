@@ -112,7 +112,12 @@ namespace RepositoryLayer.Service
             }
         }
 
-        public bool updateCustomerCart(GetCartId getCartId)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="updateCart"></param>
+        /// <returns></returns>
+        public bool updateCustomerCart(UpdateCart updateCart)
         {
             try
             {
@@ -120,8 +125,8 @@ namespace RepositoryLayer.Service
                 SqlCommand cmd = new SqlCommand("spUpdateCartBookQuantity", sqlConnection);
 
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@cart_id", getCartId.cart_id);
-                cmd.Parameters.AddWithValue("@book_quantity", getCartId.book_quantity);
+                cmd.Parameters.AddWithValue("@cart_id", updateCart.cart_id);
+                cmd.Parameters.AddWithValue("@book_quantity", updateCart.book_quantity);
                 
                 sqlConnection.Open();
                 int databaseUpdateValue = cmd.ExecuteNonQuery();
@@ -148,5 +153,47 @@ namespace RepositoryLayer.Service
                 }
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="getCartId"></param>
+        /// <returns></returns>
+        public bool delteCustomerCart(GetCartId getCartId)
+        {
+            try
+            {
+                sqlConnection = new SqlConnection(_connectionString);
+                SqlCommand cmd = new SqlCommand("spDeleteCartById", sqlConnection);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@cart_id", getCartId.cart_id);
+
+                sqlConnection.Open();
+                int databaseUpdateValue = cmd.ExecuteNonQuery();
+                sqlConnection.Close();
+                if (databaseUpdateValue > 0)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                if (sqlConnection.State == ConnectionState.Open)
+                {
+                    sqlConnection.Close();
+                }
+            }
+        }
     }
 }
+

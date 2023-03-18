@@ -79,7 +79,7 @@ namespace BookStoreApi.Controllers
         /// <returns></returns>
         [HttpPut]
         [Route("updateCustomerCart")]
-        public IActionResult updateCustomerCart(GetCartId getCartId)
+        public IActionResult updateCustomerCart(UpdateCart getCartId)
         {
             try
             {
@@ -91,6 +91,34 @@ namespace BookStoreApi.Controllers
                 else
                 {
                     return BadRequest(new { success = false, message = "updateCustomerCart_Unsuccessfully" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="getCartId"></param>
+        /// <returns></returns>
+        [HttpDelete]
+        [Route("delteCustomerCart")]
+        public IActionResult delteCustomerCart(GetCartId getCartId)
+        {
+            try
+            {
+                var result = i_CartBl.delteCustomerCart(getCartId);
+                if (result == true)
+                {
+                    return Ok(new { success = true, message = "delteCustomerCart_Successfully", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "delteCustomerCart_Unsuccessfully" });
                 }
             }
             catch (System.Exception)

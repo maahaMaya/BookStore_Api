@@ -4,8 +4,9 @@ using System.Text;
 
 namespace CommonLayer.Models.CartModels
 {
-    public class GetCartId
+    public class UpdateCart
     {
         public int cart_id { get; set; }
+        public int book_quantity { get; set; }
     }
 }
