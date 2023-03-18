@@ -9,5 +9,6 @@ namespace RepositoryLayer.Interface
     {
         public AddBookInCart addBookInCustomerCart(AddBookInCart addBookInCart);
         public IEnumerable<GetCartOfCustomer> getBookInCustomerCart(GetCustomerId getCustomerId);
+        public bool updateCustomerCart(GetCartId getCartId);
     }
 }

@@ -84,7 +84,10 @@ namespace RepositoryLayer.Service
                 sqlConnection.Open();
                 cmd.Parameters.AddWithValue("@customer_id", getCustomerId.customer_id);
                 SqlDataReader rdr = cmd.ExecuteReader();
-                
+                if (!rdr.HasRows)
+                {
+                    return null;
+                }
                 List< GetAllCustomer> listCustomer = new List< GetAllCustomer>();
                 while(rdr.Read())
                 {

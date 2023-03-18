@@ -40,5 +40,18 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+
+        public bool updateCustomerCart(GetCartId getCartId)
+        {
+            try
+            {
+                return i_CartRl.updateCustomerCart(getCartId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
