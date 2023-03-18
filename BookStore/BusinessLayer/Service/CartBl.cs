@@ -27,5 +27,18 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+
+        public IEnumerable<GetCartOfCustomer> getBookInCustomerCart(GetCustomerId getCustomerId)
+        {
+            try
+            {
+                return i_CartRl.getBookInCustomerCart(getCustomerId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

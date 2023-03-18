@@ -1,4 +1,5 @@
-﻿using CommonLayer.Models.CartModels;
+﻿using CommonLayer.Models.BookModels;
+using CommonLayer.Models.CartModels;
 using Microsoft.Extensions.Configuration;
 using RepositoryLayer.Interface;
 using System;
@@ -51,6 +52,63 @@ namespace RepositoryLayer.Service
             catch (Exception)
             {
                 throw;
+            }
+            finally
+            {
+                if (sqlConnection.State == ConnectionState.Open)
+                {
+                    sqlConnection.Close();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="getCustomerId"></param>
+        /// <returns></returns>
+        public IEnumerable<GetCartOfCustomer>  getBookInCustomerCart(GetCustomerId getCustomerId)
+        {
+            try
+            {
+                sqlConnection = new SqlConnection(_connectionString);
+                SqlCommand cmd = new SqlCommand("spGetBookInCartOfCustomer", sqlConnection);
+
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@customer_id", getCustomerId.customer_id);
+
+                this.sqlConnection.Open();
+                SqlDataReader rdr = cmd.ExecuteReader();
+                if (!rdr.HasRows)
+                {
+                    return null;
+                }
+                List<GetCartOfCustomer> getCartOfCustomerList = new List< GetCartOfCustomer>();
+                while (rdr.Read())
+                {
+                    GetCartOfCustomer getCartOfCustomer = new GetCartOfCustomer();
+
+                    getCartOfCustomer.cart_id = Convert.ToInt32(rdr["cart_id"]);
+                    getCartOfCustomer.customer_id = Convert.ToInt32(rdr["customer_id"]);
+                    getCartOfCustomer.book_id = Convert.ToInt32(rdr["book_id"]);
+                    getCartOfCustomer.book_quantity = Convert.ToInt32(rdr["book_quantity"]);
+
+                    getCartOfCustomerList.Add(getCartOfCustomer);
+                }
+                this.sqlConnection.Close();
+                return getCartOfCustomerList;
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                if (sqlConnection.State == ConnectionState.Open)
+                {
+                    sqlConnection.Close();
+                }
             }
         }
     }

@@ -8,5 +8,6 @@ namespace RepositoryLayer.Interface
     public interface I_CartRl
     {
         public AddBookInCart addBookInCustomerCart(AddBookInCart addBookInCart);
+        public IEnumerable<GetCartOfCustomer> getBookInCustomerCart(GetCustomerId getCustomerId);
     }
 }

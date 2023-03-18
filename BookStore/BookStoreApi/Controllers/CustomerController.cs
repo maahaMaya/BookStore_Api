@@ -118,7 +118,7 @@ namespace BookStoreApi.Controllers
         {
             try
             {
-                var email_id = User.FindFirst(ClaimTypes.Email).Value.ToString();
+                var email_id = User.FindFirst(ClaimTypes.Email).Value.ToString(); 
                 var result = i_CustomerBl.reset_login_password(resetPassword, email_id);
                 if (result == true)
                 {

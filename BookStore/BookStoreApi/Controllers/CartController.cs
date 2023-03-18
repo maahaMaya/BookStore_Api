@@ -43,5 +43,33 @@ namespace BookStoreApi.Controllers
                 throw;
             }
         }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="getCustomerId"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [Route("getBookInCustomerCart")]
+        public IActionResult getBookInCustomerCart(GetCustomerId getCustomerId)
+        {
+            try
+            {
+                var result = i_CartBl.getBookInCustomerCart(getCustomerId);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "addToCustomer_Success", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "addToCustomer_UnSuccess" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }
