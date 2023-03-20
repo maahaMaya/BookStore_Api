@@ -42,5 +42,18 @@ namespace BusinessLayer.Service
             }
         }
 
+        public IEnumerable<GetWishlist> getAllCustomerBookWishlist(GetCustomerId getCustomerId)
+        {
+            try
+            {
+                return i_Wishlist_Rl.getAllCustomerBookWishlist(getCustomerId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
     }
 }

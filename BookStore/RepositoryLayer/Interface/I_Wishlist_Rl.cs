@@ -10,5 +10,6 @@ namespace RepositoryLayer.Interface
     {
         public AddWishlist addCustomerBookToWishlist(AddWishlist addWishlist);
         public bool deleteCustomerBookToWishlist(GetWishlistId getWishlistId);
+        public IEnumerable<GetWishlist> getAllCustomerBookWishlist(GetCustomerId getCustomerId);
     }
 }
