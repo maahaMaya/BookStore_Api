@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Interface;
+using CommonLayer.Models.BookModels;
 using CommonLayer.Models.CartModels;
 using CommonLayer.Models.Feedback;
 using Microsoft.AspNetCore.Http;
@@ -43,5 +44,29 @@ namespace BookStoreApi.Controllers
                 throw;
             }
         }
+
+        [HttpGet]
+        [Route("getBookFeedback")]
+        public IActionResult getBookFeedback([FromQuery]GetBookById getBookById)
+        {
+            try
+            {
+                var result = i_CustomerFeedback_Bl.getBookFeedback(getBookById);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "getBookFeedback_Successfully", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "getBookFeedback_UnSuccessfully" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+        
     }
 }

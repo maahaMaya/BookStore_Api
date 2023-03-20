@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Interface;
+using CommonLayer.Models.BookModels;
 using CommonLayer.Models.Feedback;
 using RepositoryLayer.Interface;
 using System;
@@ -20,6 +21,18 @@ namespace BusinessLayer.Service
             try
             {
                 return i_CustomerFeedback_Rl.addCustomerBookToWishlist(addFeedback);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+        public IEnumerable<GetFeedback> getBookFeedback(GetBookById getBookById)
+        {
+            try
+            {
+                return i_CustomerFeedback_Rl.getBookFeedback(getBookById);
             }
             catch (Exception)
             {
