@@ -1,4 +1,5 @@
-﻿using CommonLayer.Models.Wishlist;
+﻿using CommonLayer.Models.CartModels;
+using CommonLayer.Models.Wishlist;
 using Microsoft.Extensions.Configuration;
 using RepositoryLayer.Interface;
 using System;
@@ -46,6 +47,40 @@ namespace RepositoryLayer.Service
                     return null;
                 }
 
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="getWishlistId"></param>
+        /// <returns></returns>
+        public bool deleteCustomerBookToWishlist(GetWishlistId getWishlistId)
+        {
+            try
+            {
+                sqlConnection = new SqlConnection(_connectionString);
+                SqlCommand sqlCommand = new SqlCommand("spDeleteBookInCustomerWishlist", sqlConnection);
+
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@wishlist_id", getWishlistId.wishlist_id);
+
+                this.sqlConnection.Open();
+                int databaseUpdateValue = sqlCommand.ExecuteNonQuery();
+                this.sqlConnection.Close();
+                if (databaseUpdateValue >= 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
             catch (Exception)
             {

@@ -1,4 +1,5 @@
 ﻿using BusinessLayer.Interface;
+using CommonLayer.Models.CartModels;
 using CommonLayer.Models.Wishlist;
 using RepositoryLayer.Interface;
 using System;
@@ -20,6 +21,19 @@ namespace BusinessLayer.Service
             try
             {
                 return i_Wishlist_Rl.addCustomerBookToWishlist(addWishlist);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public bool deleteCustomerBookToWishlist(GetWishlistId getWishlistId)
+        {
+            try
+            {
+                return i_Wishlist_Rl.deleteCustomerBookToWishlist(getWishlistId);
             }
             catch (Exception)
             {
