@@ -9,10 +9,10 @@ namespace BookStoreApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CustomerFeedback : ControllerBase
+    public class CustomerFeedbackController : ControllerBase
     {
         I_CustomerFeedback_Bl i_CustomerFeedback_Bl;
-        public CustomerFeedback(I_CustomerFeedback_Bl i_CustomerFeedback_Bl) 
+        public CustomerFeedbackController(I_CustomerFeedback_Bl i_CustomerFeedback_Bl) 
         {
             this.i_CustomerFeedback_Bl = i_CustomerFeedback_Bl;
         }
