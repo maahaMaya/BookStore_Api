@@ -19,6 +19,11 @@ namespace RepositoryLayer.Service
             _connectionString = iconfiguration.GetSection("ConnectionString").GetSection("BookStore").Value;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="addCustomerAddress"></param>
+        /// <returns></returns>
         public AddCustomerAddress addCustomerAddress(AddCustomerAddress addCustomerAddress)
         {
             try
@@ -43,6 +48,48 @@ namespace RepositoryLayer.Service
                 else
                 {
                     return null;
+                }
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+            finally
+            {
+                if (sqlConnection.State == ConnectionState.Open)
+                {
+                    sqlConnection.Close();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="getAddressId"></param>
+        /// <returns></returns>
+        public bool deleteCustomerAddress(GetAddressId getAddressId)
+        {
+            try
+            {
+                sqlConnection = new SqlConnection(_connectionString);
+                SqlCommand sqlCommand = new SqlCommand("spDeleteCustomerAddress", sqlConnection);
+
+                sqlCommand.CommandType = CommandType.StoredProcedure;
+                sqlCommand.Parameters.AddWithValue("@address_id", getAddressId.address_id);
+
+                this.sqlConnection.Open();
+                int databaseUpdateValue = sqlCommand.ExecuteNonQuery();
+                this.sqlConnection.Close();
+                if (databaseUpdateValue >= 1)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
                 }
 
             }

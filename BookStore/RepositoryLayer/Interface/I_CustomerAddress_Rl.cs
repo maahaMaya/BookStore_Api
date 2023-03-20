@@ -8,5 +8,6 @@ namespace RepositoryLayer.Interface
     public interface I_CustomerAddress_Rl
     {
         public AddCustomerAddress addCustomerAddress(AddCustomerAddress addCustomerAddress);
+        public bool deleteCustomerAddress(GetAddressId getAddressId);
     }
 }

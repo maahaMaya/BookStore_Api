@@ -27,5 +27,17 @@ namespace BusinessLayer.Service
                 throw;
             }
         }
+        public bool deleteCustomerAddress(GetAddressId getAddressId)
+        {
+            try
+            {
+                return i_CustomerAddress_Rl.deleteCustomerAddress(getAddressId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
     }
 }

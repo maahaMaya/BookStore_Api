@@ -30,7 +30,30 @@ namespace BookStoreApi.Controllers
                 }
                 else
                 {
-                    return BadRequest(new { success = false, message = "addCustomerAddress_Unsuccessful" });
+                    return BadRequest(new { success = false, message = "addCustomerAddress_Unsuccessfully" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpDelete]
+        [Route("deleteCustomerAddress")]
+        public IActionResult deleteCustomerAddress(GetAddressId getAddressId)
+        {
+            try
+            {
+                var result = i_CustomerAddress_Bl.deleteCustomerAddress(getAddressId);
+                if (result == true)
+                {
+                    return Ok(new { success = true, message = "deleteCustomerAddress_Successfully", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "deleteCustomerAddress_Unsuccessfully" });
                 }
             }
             catch (System.Exception)
