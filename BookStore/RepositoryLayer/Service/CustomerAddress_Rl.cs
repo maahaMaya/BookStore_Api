@@ -1,4 +1,7 @@
 ﻿using CommonLayer.Models.AddressModel;
+using CommonLayer.Models.BookModels;
+using CommonLayer.Models.CartModels;
+using CommonLayer.Models.Feedback;
 using CommonLayer.Models.Wishlist;
 using Microsoft.Extensions.Configuration;
 using RepositoryLayer.Interface;
@@ -96,6 +99,58 @@ namespace RepositoryLayer.Service
             catch (Exception)
             {
 
+                throw;
+            }
+            finally
+            {
+                if (sqlConnection.State == ConnectionState.Open)
+                {
+                    sqlConnection.Close();
+                }
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="getCustomerId"></param>
+        /// <returns></returns>
+        public IEnumerable<GetCustomerAddress> getCustomerAddress(GetCustomerId getCustomerId)
+        {
+            try
+            {
+                sqlConnection = new SqlConnection(_connectionString);
+                List<GetCustomerAddress> getCustomerAddressesList = new List<GetCustomerAddress>();
+                SqlCommand cmd = new SqlCommand("spGetCustomerAddress", sqlConnection);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                sqlConnection.Open();
+                cmd.Parameters.AddWithValue("@customer_id", getCustomerId.customer_id);
+                SqlDataReader rdr = cmd.ExecuteReader();
+                if (!rdr.HasRows)
+                {
+                    return null;
+                }
+                while (rdr.Read())
+                {
+                    GetCustomerAddress getCustomerAddress = new GetCustomerAddress();
+
+                    getCustomerAddress.fullname = rdr["fullname"].ToString();
+                    getCustomerAddress.phone_number = Convert.ToInt32(rdr["phone_number"]);
+                    getCustomerAddress.address_id = Convert.ToInt32(rdr["address_id"]);
+                    getCustomerAddress.customer_id = Convert.ToInt32(rdr["customer_id"]);
+                    getCustomerAddress.address_type_id = Convert.ToInt32(rdr["address_type_id"]);
+                    getCustomerAddress.customer_address = rdr["customer_address"].ToString();
+                    getCustomerAddress.customer_city = rdr["customer_city"].ToString();
+                    getCustomerAddress.customer_state = rdr["customer_state"].ToString();
+
+                    getCustomerAddressesList.Add(getCustomerAddress);
+                }
+                sqlConnection.Close();
+                return getCustomerAddressesList;
+            }
+            catch (Exception)
+            {
                 throw;
             }
             finally

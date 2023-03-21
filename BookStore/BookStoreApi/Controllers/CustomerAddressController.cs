@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Interface;
 using CommonLayer.Models.AddressModel;
+using CommonLayer.Models.CartModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using RepositoryLayer.Interface;
@@ -54,6 +55,29 @@ namespace BookStoreApi.Controllers
                 else
                 {
                     return BadRequest(new { success = false, message = "deleteCustomerAddress_Unsuccessfully" });
+                }
+            }
+            catch (System.Exception)
+            {
+
+                throw;
+            }
+        }
+
+        [HttpGet]
+        [Route("getCustomerAddress")]
+        public IActionResult getCustomerAddress([FromQuery] GetCustomerId getCustomerId)
+        {
+            try
+            {
+                var result = i_CustomerAddress_Bl.getCustomerAddress(getCustomerId);
+                if (result != null)
+                {
+                    return Ok(new { success = true, message = "getCustomerAddress_Successfully", data = result });
+                }
+                else
+                {
+                    return BadRequest(new { success = false, message = "getCustomerAddress_Unsuccessfully" });
                 }
             }
             catch (System.Exception)

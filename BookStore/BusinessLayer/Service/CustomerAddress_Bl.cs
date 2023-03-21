@@ -1,5 +1,6 @@
 ﻿using BusinessLayer.Interface;
 using CommonLayer.Models.AddressModel;
+using CommonLayer.Models.CartModels;
 using RepositoryLayer.Interface;
 using System;
 using System.Collections.Generic;
@@ -32,6 +33,19 @@ namespace BusinessLayer.Service
             try
             {
                 return i_CustomerAddress_Rl.deleteCustomerAddress(getAddressId);
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        public IEnumerable<GetCustomerAddress> getCustomerAddress(GetCustomerId getCustomerId)
+        {
+            try
+            {
+                return i_CustomerAddress_Rl.getCustomerAddress(getCustomerId);
             }
             catch (Exception)
             {
