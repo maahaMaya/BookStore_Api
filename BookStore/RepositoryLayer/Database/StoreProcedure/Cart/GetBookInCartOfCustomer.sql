@@ -12,8 +12,8 @@ AS BEGIN
 		BEGIN
 			SELECT * FROM CartDetails WHERE (customer_id = @customer_id) 
 		END
-		ELSE
-			THROW 51002, 'Not a Valid customer_id', 1
+		--ELSE
+			--THROW 51002, 'Not a Valid customer_id', 1
 	END TRY
 	BEGIN CATCH
 		SELECT ERROR_MESSAGE() AS ERROR

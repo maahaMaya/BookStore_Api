@@ -57,6 +57,9 @@ namespace BookStoreApi
             services.AddTransient<I_CustomerAddress_Bl, CustomerAddress_Bl>();
             services.AddTransient<I_CustomerAddress_Rl, CustomerAddress_Rl>();
 
+            services.AddTransient<I_Order_Bl, Order_Bl>();
+            services.AddTransient<I_Order_Rl, Order_Rl>();
+
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
