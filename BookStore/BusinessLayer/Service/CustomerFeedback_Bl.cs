@@ -16,11 +16,11 @@ namespace BusinessLayer.Service
             this.i_CustomerFeedback_Rl = i_CustomerFeedback_Rl;
         }
 
-        public AddFeedback addCustomerBookToWishlist(AddFeedback addFeedback)
+        public AddFeedback addCustomerFeedbackForBook(AddFeedback addFeedback, int customer_id)
         {
             try
             {
-                return i_CustomerFeedback_Rl.addCustomerBookToWishlist(addFeedback);
+                return i_CustomerFeedback_Rl.addCustomerFeedbackForBook(addFeedback, customer_id);
             }
             catch (Exception)
             {

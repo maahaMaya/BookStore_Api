@@ -2,8 +2,11 @@
 using CommonLayer.Models.BookModels;
 using CommonLayer.Models.CartModels;
 using CommonLayer.Models.Feedback;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Linq;
 
 namespace BookStoreApi.Controllers
 {
@@ -22,13 +25,15 @@ namespace BookStoreApi.Controllers
         /// </summary>
         /// <param name="addFeedback"></param>
         /// <returns></returns>
+        [Authorize]
         [HttpPost]
-        [Route("addCustomerBookToWishlist")]
-        public IActionResult addCustomerBookToWishlist(AddFeedback addFeedback)
+        [Route("addCustomerFeedbackForBook")]
+        public IActionResult addCustomerFeedbackForBook(AddFeedback addFeedback)
         {
             try
             {
-                var result = i_CustomerFeedback_Bl.addCustomerBookToWishlist(addFeedback);
+                int customer_id = Convert.ToInt32(User.Claims.FirstOrDefault(cId => cId.Type == "CustomerId").Value);
+                var result = i_CustomerFeedback_Bl.addCustomerFeedbackForBook(addFeedback, customer_id);
                 if (result != null)
                 {
                     return Ok(new { success = true, message = "addCustomerBookToWishlist_Successfully", data = result });

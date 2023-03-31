@@ -8,7 +8,7 @@ namespace RepositoryLayer.Interface
 {
     public interface I_CustomerFeedback_Rl
     {
-        public AddFeedback addCustomerBookToWishlist(AddFeedback addFeedback);
+        public AddFeedback addCustomerFeedbackForBook(AddFeedback addFeedback, int customer_id);
         public IEnumerable<GetFeedback> getBookFeedback(GetBookById getBookById);
     }
 }

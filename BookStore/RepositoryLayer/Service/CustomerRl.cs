@@ -283,7 +283,7 @@ namespace RepositoryLayer.Service
             }
         }
 
-        public string GenerateSecurityTokenCustomer(string email, long UserId)
+        public string GenerateSecurityTokenCustomer(string email, int customer_id)
         {
             var tokenHandler = new JwtSecurityTokenHandler();
             var key = Encoding.ASCII.GetBytes(_secret);
@@ -292,7 +292,8 @@ namespace RepositoryLayer.Service
                 Subject = new ClaimsIdentity(new[]
                 {
                     new Claim(ClaimTypes.Email, email),
-                    new Claim("UserId", UserId.ToString())
+                    new Claim("CustomerId", customer_id.ToString()),
+                    new Claim(ClaimTypes.Role, "Customer")
                 }),
                 Expires = DateTime.UtcNow.AddMinutes(double.Parse(_expDate)),
                 SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

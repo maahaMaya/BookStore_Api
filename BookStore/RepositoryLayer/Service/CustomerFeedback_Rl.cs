@@ -25,7 +25,7 @@ namespace RepositoryLayer.Service
         /// </summary>
         /// <param name="addFeedback"></param>
         /// <returns></returns>
-        public AddFeedback addCustomerBookToWishlist(AddFeedback addFeedback)
+        public AddFeedback addCustomerFeedbackForBook(AddFeedback addFeedback, int customer_id)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace RepositoryLayer.Service
                 SqlCommand sqlCommand = new SqlCommand("spAddCustomerFeedback", sqlConnection);
 
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("@customer_id", addFeedback.customer_id);
+                sqlCommand.Parameters.AddWithValue("@customer_id", customer_id);
                 sqlCommand.Parameters.AddWithValue("@book_id", addFeedback.book_id);
                 sqlCommand.Parameters.AddWithValue("@feedback_rating", addFeedback.feedback_rating);
                 sqlCommand.Parameters.AddWithValue("@feedback_comment", addFeedback.feedback_comment);
