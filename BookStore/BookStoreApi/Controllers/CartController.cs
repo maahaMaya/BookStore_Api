@@ -2,6 +2,9 @@
 using CommonLayer.Models.CartModels;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookStoreApi.Controllers
 {
@@ -20,14 +23,15 @@ namespace BookStoreApi.Controllers
         /// </summary>
         /// <param name="addBookInCart"></param>
         /// <returns></returns>
-
+        [Authorize]
         [HttpPost]
         [Route("addBookInCustomerCart")]
         public IActionResult addBookInCustomerCart(AddBookInCart addBookInCart)
         {
             try
             {
-                var result = i_CartBl.addBookInCustomerCart(addBookInCart);
+                int customer_id = Convert.ToInt32(User.Claims.FirstOrDefault(cId => cId.Type == "CustomerId").Value);
+                var result = i_CartBl.addBookInCustomerCart(addBookInCart, customer_id);
                 if(result != null)
                 {
                     return Ok(new { success= true, message = "addToCustomer_Success", data = result});
@@ -49,13 +53,15 @@ namespace BookStoreApi.Controllers
         /// </summary>
         /// <param name="getCustomerId"></param>
         /// <returns></returns>
-        [HttpPost]
+        [Authorize]
+        [HttpGet]
         [Route("getBookInCustomerCart")]
-        public IActionResult getBookInCustomerCart(GetCustomerId getCustomerId)
+        public IActionResult getBookInCustomerCart()
         {
             try
             {
-                var result = i_CartBl.getBookInCustomerCart(getCustomerId);
+                int customer_id = Convert.ToInt32(User.Claims.FirstOrDefault(cId => cId.Type == "CustomerId").Value);
+                var result = i_CartBl.getBookInCustomerCart(customer_id);
                 if (result != null)
                 {
                     return Ok(new { success = true, message = "addToCustomer_Success", data = result });

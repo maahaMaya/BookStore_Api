@@ -15,11 +15,11 @@ namespace BusinessLayer.Service
             this.i_CartRl= i_CartRl;
         }
 
-        public AddBookInCart addBookInCustomerCart(AddBookInCart addBookInCart)
+        public AddBookInCart addBookInCustomerCart(AddBookInCart addBookInCart, int customer_id)
         {
             try
             {
-                return i_CartRl.addBookInCustomerCart(addBookInCart);
+                return i_CartRl.addBookInCustomerCart(addBookInCart, customer_id);
             }
             catch (Exception)
             {
@@ -28,11 +28,11 @@ namespace BusinessLayer.Service
             }
         }
 
-        public IEnumerable<GetCartOfCustomer> getBookInCustomerCart(GetCustomerId getCustomerId)
+        public IEnumerable<GetCartOfCustomer> getBookInCustomerCart(int customer_id)
         {
             try
             {
-                return i_CartRl.getBookInCustomerCart(getCustomerId);
+                return i_CartRl.getBookInCustomerCart(customer_id);
             }
             catch (Exception)
             {

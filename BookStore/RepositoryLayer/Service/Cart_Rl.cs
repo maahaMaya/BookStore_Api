@@ -24,7 +24,7 @@ namespace RepositoryLayer.Service
         /// </summary>
         /// <param name="addBookInCart"></param>
         /// <returns></returns>
-        public AddBookInCart addBookInCustomerCart(AddBookInCart addBookInCart)
+        public AddBookInCart addBookInCustomerCart(AddBookInCart addBookInCart,int customer_id)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace RepositoryLayer.Service
 
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@customer_id", addBookInCart.customer_id);
+                cmd.Parameters.AddWithValue("@customer_id", customer_id);
                 cmd.Parameters.AddWithValue("@book_id", addBookInCart.book_id);
                 cmd.Parameters.AddWithValue("@book_quantity", addBookInCart.book_quantity);
 
@@ -67,7 +67,7 @@ namespace RepositoryLayer.Service
         /// </summary>
         /// <param name="getCustomerId"></param>
         /// <returns></returns>
-        public IEnumerable<GetCartOfCustomer>  getBookInCustomerCart(GetCustomerId getCustomerId)
+        public IEnumerable<GetCartOfCustomer>  getBookInCustomerCart(int customer_id)
         {
             try
             {
@@ -76,7 +76,7 @@ namespace RepositoryLayer.Service
 
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@customer_id", getCustomerId.customer_id);
+                cmd.Parameters.AddWithValue("@customer_id", customer_id);
 
                 this.sqlConnection.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
