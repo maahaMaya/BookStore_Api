@@ -10,6 +10,6 @@ namespace BusinessLayer.Interface
     {
         public AddWishlist addCustomerBookToWishlist(AddWishlist addWishlist);
         public bool deleteCustomerBookToWishlist(GetWishlistId getWishlistId);
-        public IEnumerable<GetWishlist> getAllCustomerBookWishlist(GetCustomerId getCustomerId);
+        public IEnumerable<GetWishlist> getAllCustomerBookWishlist(int customer_id);
     }
 }

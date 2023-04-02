@@ -34,11 +34,11 @@ namespace BookStoreApi.Controllers
                 var result = i_CartBl.addBookInCustomerCart(addBookInCart, customer_id);
                 if(result != null)
                 {
-                    return Ok(new { success= true, message = "addToCustomer_Success", data = result});
+                    return Ok(new { success= true, message = "addToCustomerCart_Success", data = result});
                 }
                 else
                 {
-                    return BadRequest(new {success= false, message = "addToCustomer_UnSuccess" });
+                    return BadRequest(new {success= false, message = "addToCustomerCart_UnSuccess" });
                 }
             }
             catch (System.Exception)
@@ -64,11 +64,11 @@ namespace BookStoreApi.Controllers
                 var result = i_CartBl.getBookInCustomerCart(customer_id);
                 if (result != null)
                 {
-                    return Ok(new { success = true, message = "addToCustomer_Success", data = result });
+                    return Ok(new { success = true, message = "getCustomerCart_Success", data = result });
                 }
                 else
                 {
-                    return BadRequest(new { success = false, message = "addToCustomer_UnSuccess" });
+                    return BadRequest(new { success = false, message = "getCustomerCart_UnSuccess" });
                 }
             }
             catch (System.Exception)
@@ -111,7 +111,7 @@ namespace BookStoreApi.Controllers
         /// </summary>
         /// <param name="getCartId"></param>
         /// <returns></returns>
-        [HttpDelete]
+        [HttpPut]
         [Route("delteCustomerCart")]
         public IActionResult delteCustomerCart(GetCartId getCartId)
         {

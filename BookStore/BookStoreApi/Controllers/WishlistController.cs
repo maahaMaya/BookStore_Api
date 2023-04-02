@@ -3,6 +3,9 @@ using CommonLayer.Models.CartModels;
 using CommonLayer.Models.Wishlist;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
+using System;
+using Microsoft.AspNetCore.Authorization;
 
 namespace BookStoreApi.Controllers
 {
@@ -101,17 +104,15 @@ namespace BookStoreApi.Controllers
         /// </summary>
         /// <param name="getWishlistId"></param>
         /// <returns></returns>
-        [HttpPut]
+        [Authorize]
+        [HttpGet]
         [Route("getCustomerBookToWishlist")]
-        public IActionResult getCustomerBookToWishlist(GetCustomerId getCustomerId)
+        public IActionResult getCustomerBookToWishlist()
         {
             try
             {
-                if (getCustomerId == null)
-                {
-                    return BadRequest(new { success = false });
-                }
-                var result = i_Wishlist_Bl.getAllCustomerBookWishlist(getCustomerId);
+                int customer_id = Convert.ToInt32(User.Claims.FirstOrDefault(cId => cId.Type == "CustomerId").Value); ;
+                var result = i_Wishlist_Bl.getAllCustomerBookWishlist(customer_id);
                 try
                 {
                     if (result != null)

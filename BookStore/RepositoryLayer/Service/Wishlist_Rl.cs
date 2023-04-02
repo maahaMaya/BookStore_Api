@@ -104,7 +104,7 @@ namespace RepositoryLayer.Service
             }
         }
 
-        public IEnumerable<GetWishlist> getAllCustomerBookWishlist(GetCustomerId getCustomerId)
+        public IEnumerable<GetWishlist> getAllCustomerBookWishlist(int customer_id)
         {
             try
             {
@@ -113,7 +113,7 @@ namespace RepositoryLayer.Service
                 SqlCommand cmd = new SqlCommand("spGetBookInCustomerWishlist", sqlConnection);
                 cmd.CommandType = CommandType.StoredProcedure;
 
-                cmd.Parameters.AddWithValue("@customer_id", getCustomerId.customer_id);
+                cmd.Parameters.AddWithValue("@customer_id", customer_id);
 
                 sqlConnection.Open();
                 SqlDataReader rdr = cmd.ExecuteReader();
