@@ -24,17 +24,15 @@ namespace BookStoreApi.Controllers
         /// </summary>
         /// <param name="addWishlist"></param>
         /// <returns></returns>
+        [Authorize(Roles = Role.Customer)]
         [HttpPost]
         [Route("addCustomerBookToWishlist")]
         public IActionResult addCustomerBookToWishlist(AddWishlist addWishlist)
         {
             try
             {
-                if(addWishlist == null)
-                {
-                    return BadRequest(new { success = false });
-                }
-                var result = i_Wishlist_Bl.addCustomerBookToWishlist(addWishlist);
+                int customer_id = Convert.ToInt32(User.Claims.FirstOrDefault(cId => cId.Type == "CustomerId").Value);
+                var result = i_Wishlist_Bl.addCustomerBookToWishlist(addWishlist, customer_id);
                 try
                 {
                     if(result != null)
@@ -64,7 +62,8 @@ namespace BookStoreApi.Controllers
         /// </summary>
         /// <param name="getWishlistId"></param>
         /// <returns></returns>
-        [HttpDelete]
+        [Authorize]
+        [HttpPut]
         [Route("deleteCustomerBookToWishlist")]
         public IActionResult deleteCustomerBookToWishlist(GetWishlistId getWishlistId)
         {
@@ -111,17 +110,17 @@ namespace BookStoreApi.Controllers
         {
             try
             {
-                int customer_id = Convert.ToInt32(User.Claims.FirstOrDefault(cId => cId.Type == "CustomerId").Value); ;
+                int customer_id = Convert.ToInt32(User.Claims.FirstOrDefault(cId => cId.Type == "CustomerId").Value);
                 var result = i_Wishlist_Bl.getAllCustomerBookWishlist(customer_id);
                 try
                 {
                     if (result != null)
                     {
-                        return Ok(new { success = true, message = "deleteCustomerBookToWishlist_Successfully", data = result });
+                        return Ok(new { success = true, message = "getCustomerBookToWishlist_Successfully", data = result });
                     }
                     else
                     {
-                        return BadRequest(new { success = false, message = "deleteCustomerBookToWishlist_Unsuccessfully" });
+                        return BadRequest(new { success = false, message = "getCustomerBookToWishlist_Unsuccessfully" });
                     }
                 }
                 catch (System.Exception)

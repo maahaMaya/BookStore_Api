@@ -8,7 +8,7 @@ namespace RepositoryLayer.Interface
 {
     public interface I_Wishlist_Rl
     {
-        public AddWishlist addCustomerBookToWishlist(AddWishlist addWishlist);
+        public AddWishlist addCustomerBookToWishlist(AddWishlist addWishlist, int customer_id);
         public bool deleteCustomerBookToWishlist(GetWishlistId getWishlistId);
         public IEnumerable<GetWishlist> getAllCustomerBookWishlist(int customer_id);
     }

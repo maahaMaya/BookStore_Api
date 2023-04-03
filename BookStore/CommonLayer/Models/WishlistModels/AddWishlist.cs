@@ -6,7 +6,6 @@ namespace CommonLayer.Models.Wishlist
 {
     public class AddWishlist
     {
-        public int customer_id { get; set; }
         public int book_id { get; set; }
     }
 }

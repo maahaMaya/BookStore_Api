@@ -25,7 +25,7 @@ namespace RepositoryLayer.Service
         /// </summary>
         /// <param name="addWishlist"></param>
         /// <returns></returns>
-        public AddWishlist addCustomerBookToWishlist(AddWishlist addWishlist)
+        public AddWishlist addCustomerBookToWishlist(AddWishlist addWishlist, int customer_id)
         {
             try
             {
@@ -33,7 +33,7 @@ namespace RepositoryLayer.Service
                 SqlCommand sqlCommand = new SqlCommand("spAddBookInWishlist", sqlConnection);
 
                 sqlCommand.CommandType = CommandType.StoredProcedure;
-                sqlCommand.Parameters.AddWithValue("@customer_id", addWishlist.customer_id);
+                sqlCommand.Parameters.AddWithValue("@customer_id", customer_id);
                 sqlCommand.Parameters.AddWithValue("@book_id", addWishlist.book_id);
 
                 this.sqlConnection.Open();
@@ -119,7 +119,7 @@ namespace RepositoryLayer.Service
                 SqlDataReader rdr = cmd.ExecuteReader();
                 if (!rdr.HasRows)
                 {
-                    return null;
+                    ;
                 }
                 while (rdr.Read())
                 {
